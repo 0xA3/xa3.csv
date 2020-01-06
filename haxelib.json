@@ -1,0 +1,14 @@
+{
+	"name": "xa3.csv",
+	"license": "MIT",
+	"classPath": "",
+	"url": "",
+	"tags": ["cross", "parser", "xa3"],
+	"description": "Another CSV format library for Haxe. Access content by Map<String,String>",
+	"version": "0.1.0",
+	"releasenote": "Initial release",
+	"contributors": ["0xA3"],
+	"dependencies": {
+		"csv": ""
+	}
+}
