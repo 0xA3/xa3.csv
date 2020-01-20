@@ -1,12 +1,3 @@
-## A CSV format library
-
-Converts csv data in an easy to use format.  
-Uses very simple parser for csv files.  
-Optionally uses https://github.com/jonasmalacofilho/csv library for parsing.
-
-## Example
-
-```haxe
 class Main {
 	
 	static function main() {
@@ -29,8 +20,3 @@ class Main {
 
 	}
 }
-```
-
-## Issues
-
-Found any bug? Please create a new issue.

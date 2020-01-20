@@ -1,0 +1,9 @@
+{
+	"test.TestDetectDelimiter": {
+		"pos": {
+			"line": 6,
+			"file": "src/test/TestDetectDelimiter.hx"
+		},
+		"methods": {}
+	}
+}

@@ -1,0 +1,9 @@
+{
+	"haxeTestExplorer.testCommand": [
+		"${haxe}",
+		"build_test.hxml",
+		"-lib",
+		"test-adapter"
+	],
+	"haxeTestExplorer.launchConfiguration": "Debug"
+}

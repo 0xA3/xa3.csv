@@ -1,8 +1,8 @@
 {
 	"name": "xa3.csv",
 	"license": "MIT",
-	"classPath": "",
-	"url": "",
+	"classPath": "src",
+	"url": "https://github.com/0xA3/xa3.csv",
 	"tags": ["cross", "parser", "xa3"],
 	"description": "Another CSV format library for Haxe. Access content by Map<String,String>",
 	"version": "0.1.0",

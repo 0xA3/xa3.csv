@@ -1,0 +1,7 @@
+-lib buddy
+-lib csv
+-cp src
+-D analyzer-optimize
+-debug
+-main test.TestMain
+--interp

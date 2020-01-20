@@ -1,0 +1,5 @@
+-lib xa3.csv
+-cp src
+-D analyzer-optimize
+-main Main
+--interp
