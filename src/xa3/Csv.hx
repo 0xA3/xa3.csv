@@ -1,7 +1,7 @@
 package xa3;
 
-using StringTools;
 using Lambda;
+using StringTools;
 
 enum QuoteCells {
 	Quoted;
@@ -49,19 +49,18 @@ class Csv {
 		return new Csv( name, columnNames, columnMap, nonEmptyLines );
 	}
 	
-	public static function fromCsvRecords( records:Array<format.csv.Data.Record>, name = "noname", trimCells = true ):xa3.Csv {
+	public static function fromCsvRecords( records:Array<format.csv.Data.Record>, name = "noname", trimCells = true, isCaseSensitive = true ):xa3.Csv {
 
-		final columnNames = records.length == 0 ? [] : records[0];
+		final columnNames = records.length == 0 ? [] : records[0].map( columnName -> isCaseSensitive ? columnName : columnName.toLowerCase());
 		
 		final columnMap:Map<String,Int> = [];
-		for( i in 0...columnNames.length ) columnMap.set( columnNames[i], i );
+		for( i in 0...columnNames.length ) columnMap.set( isCaseSensitive ? columnNames[i] : columnNames[i].toLowerCase(), i );
 
 		final dataRecords = records.slice( 1 );
 		final trimmedDataRecords = trimCells ? dataRecords.map( line -> line.map( cell -> cell.trim())) : dataRecords;
 		final lines = trimmedDataRecords.map( columns -> [ for( i in 0...columnNames.length ) columnNames[i] => columns[i] ]);
 
 		final nonEmptyLines = filterEmptyLines( lines );
-
 		return new xa3.Csv( name, columnNames, columnMap, nonEmptyLines );
 
 	}
@@ -98,7 +97,6 @@ class Csv {
 		final trimmedLinesArray = trimCells ? linesArray.map( line -> line.map( cell -> cell.trim())) : linesArray;
 
 		return isQuoted ? trimmedLinesArray.map( lineArray -> lineArray.map( cell -> cell.substr( 1, cell.length - 2 ))) : trimmedLinesArray;  // TODO implement proper CSV parsing
-
 	}
 
 	public static function encode( a:Array<Array<String>>, delimiter = ";" ):String {
