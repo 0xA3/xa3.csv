@@ -7,10 +7,10 @@
 			"type": "hxml",
 			"label": "Build test",
 			"file": "build_test.hxml",
-			// "group": {
-			// 	"kind": "build",
-			// 	"isDefault": true
-			// }
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
 		}
 
 	]

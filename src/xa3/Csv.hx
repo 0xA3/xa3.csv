@@ -11,13 +11,18 @@ enum QuoteCells {
 
 class Csv {
 
-	public static inline var CHARCODE_NEWLINE:String = String.fromCharCode(10);
-	public static inline var CR:String = String.fromCharCode(13);
+	public static inline var CHARCODE_NEWLINE = 10;
+	public static inline var CHAR_NEWLINE = String.fromCharCode( CHARCODE_NEWLINE );
+	public static inline var CR = String.fromCharCode(13);
 	
 	public final name:String;
 	public final columnNames:Array<String>;
 	public final columnMap:Map<String,Int>;
 	public final lines:Array<Map<String,String>>;
+
+	static var isInsideOfQuotes = false;
+	static var pos = 0;
+	static var source = "";
 
 	public function new( name:String, columnNames:Array<String>, columnMap:Map<String,Int>, lines:Array<Map<String,String>> ) {
 		
@@ -90,20 +95,70 @@ class Csv {
 		}
 
 		if( s.indexOf( CR ) != -1 ) s = s.replace( CR, "" );
-		final lines = s.split( CHARCODE_NEWLINE );
+		// trace( 'isQuoted: $isQuoted  delimiter: $delimiter' );
+		final sheetContent = decodeContent( s, isQuoted, delimiter.charCodeAt( 0 ), trimCells );
 
-		final linesWithContent = lines.filter( line -> line.length > 1 );
-		final linesArray = linesWithContent.map( line -> line.split( delimiter ));
-		final trimmedLinesArray = trimCells ? linesArray.map( line -> line.map( cell -> cell.trim())) : linesArray;
-
-		return isQuoted ? trimmedLinesArray.map( lineArray -> lineArray.map( s -> removeQuotes( s ))) : trimmedLinesArray;  // TODO implement proper CSV parsing
+		return sheetContent;
 	}
 
-	static function removeQuotes( s:String ) {
-		final startChar = s.charAt( 0 ) == '"' ? 1 : 0;
-		final endChar = s.charAt( s.length - 1 ) == '"' ? s.length - 1 : s.length;
-		return s.substring( startChar, endChar );
+	static function decodeContent( s:String, isQuoted:Bool, delimiterCode:Int, trimCells:Bool ) {
+		pos = 0;
+		source = s;
+
+		final sheetContent = [];
+		var cells = [];
+		var s = "";
+		while( true ) {
+			var char = readChar();
+
+			if( char == '"'.code ) {
+				isInsideOfQuotes = !isInsideOfQuotes;
+				if( !isQuoted ) s += String.fromCharCode( char );
+			}
+
+			else if( char == delimiterCode ) {
+				if( isInsideOfQuotes ) s += String.fromCharCode( char );
+				else {
+					if( trimCells ) s = s.trim();
+					// trace( s );
+					cells.push( s );
+					s = "";
+				}
+			}
+			
+			else if( char == CHARCODE_NEWLINE || char == 0 ) {
+				if( isInsideOfQuotes ) throw 'Error: unterminated quoted string in $s';
+				
+				if( cells.length > 0 || s != "" ) {
+					if( isInsideOfQuotes ) s += String.fromCharCode( char );
+					else {
+						if( trimCells ) s = s.trim();
+						// trace( s );
+						cells.push( s );
+						s = "";
+					}
+
+					if( cells.length > 0 ) {
+						// trace( cells );
+						sheetContent.push( cells );
+						cells = [];
+					}
+				}
+			}
+
+			else s += String.fromCharCode( char );
+
+			if( char == 0 ) break;
+		}
+
+		return sheetContent;
 	}
+
+	static function readChar() {
+		final code = StringTools.fastCodeAt( source, pos++ );
+		return code ?? 0;
+	}
+
 
 	public static function encode( a:Array<Array<String>>, delimiter = ";" ):String {
 		return a.fold(( line:Array<String>, sum:String ) -> sum + line.join( ";" ) + "\n", "" );
@@ -129,6 +184,6 @@ class Csv {
 	}
 
 	public function toString():String {
-		return '$columnMap $lines';
+		return "\n" + columnNames.join(";") + "\n" + lines.map( line -> columnNames.map( name -> line[name] ).join(";") ).join("\n");
 	}
 }
