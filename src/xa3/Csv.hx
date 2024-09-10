@@ -96,7 +96,13 @@ class Csv {
 		final linesArray = linesWithContent.map( line -> line.split( delimiter ));
 		final trimmedLinesArray = trimCells ? linesArray.map( line -> line.map( cell -> cell.trim())) : linesArray;
 
-		return isQuoted ? trimmedLinesArray.map( lineArray -> lineArray.map( cell -> cell.substr( 1, cell.length - 2 ))) : trimmedLinesArray;  // TODO implement proper CSV parsing
+		return isQuoted ? trimmedLinesArray.map( lineArray -> lineArray.map( s -> removeQuotes( s ))) : trimmedLinesArray;  // TODO implement proper CSV parsing
+	}
+
+	static function removeQuotes( s:String ) {
+		final startChar = s.charAt( 0 ) == '"' ? 1 : 0;
+		final endChar = s.charAt( s.length - 1 ) == '"' ? s.length - 1 : s.length;
+		return s.substring( startChar, endChar );
 	}
 
 	public static function encode( a:Array<Array<String>>, delimiter = ";" ):String {

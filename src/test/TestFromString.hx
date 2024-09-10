@@ -10,7 +10,7 @@ class TestFromString extends buddy.BuddySuite {
 		
 		describe( "Test CSV fromString", {
 
-			final s = "column1;column2;column3\nline1 value1;line1 value2;line1 value3/n";
+			final s = "column1;column2;column3\nline1 value1;line1 value2;line1 value3\n";
 			
 			it( "should read first line as column names", {
 				Csv.fromString( "csv name", s ).columnNames.toString().should.be( "[column1,column2,column3]" );
