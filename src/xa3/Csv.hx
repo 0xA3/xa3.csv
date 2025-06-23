@@ -25,7 +25,6 @@ class Csv {
 	static var source = "";
 
 	public function new( name:String, columnNames:Array<String>, columnMap:Map<String,Int>, lines:Array<Map<String,String>> ) {
-		
 		this.name = name;
 		this.columnNames = columnNames;
 		this.columnMap = columnMap;
@@ -33,7 +32,6 @@ class Csv {
 	}
 
 	public static function fromString( name:String, content:String, quoteCells = Autodetect, inputDelimiter = "" ):Csv {
-
 		final delimiter = inputDelimiter == "" ? detectDelimiter( content ) : inputDelimiter;
 		
 		final decoded = decode( content, quoteCells, delimiter );
@@ -43,7 +41,6 @@ class Csv {
 	}
 
 	public static function fromColumnAndStringArrays( name:String, columnNames:Array<String>, decodedLines:Array<Array<String>>, inputDelimiter = "" ):Csv {
-
 		final columnMap:Map<String,Int> = [];
 		for( i in 0...columnNames.length ) columnMap.set( columnNames[i], i );
 		
@@ -55,7 +52,6 @@ class Csv {
 	}
 	
 	public static function fromCsvRecords( records:Array<format.csv.Data.Record>, name = "noname", trimCells = true, isCaseSensitive = true ):xa3.Csv {
-
 		final columnNames = records.length == 0 ? [] : records[0].map( columnName -> isCaseSensitive ? columnName : columnName.toLowerCase());
 		
 		final columnMap:Map<String,Int> = [];
@@ -71,7 +67,6 @@ class Csv {
 	}
 
 	public static function fromFiles( files:Map<String, String> ):Array<Csv> {
-
 		final filenames = [ for( filename in files.keys()) filename ];
 		final csvs:Array<Csv> = filenames.map( filename -> Csv.fromString( filename, files[filename] ));
 
@@ -79,7 +74,6 @@ class Csv {
 	}
 
 	static function filterEmptyLines( lines:Array<Map<String, String>> ):Array<Map<String, String>> {
-
 		return lines.filter( line -> {
 			for( cell in line ) if( cell != "" ) return true;
 			return false;
@@ -87,7 +81,6 @@ class Csv {
 	}
 	
 	public static function decode( s:String, quoteCells = Autodetect, delimiter = ";", trimCells = true ):Array<Array<String>> {
-		
 		final isQuoted = switch quoteCells {
 			case Quoted: true;
 			case NotQuoted: false;
@@ -165,7 +158,6 @@ class Csv {
 	}
 
 	public static function detectDelimiter( s:String ):String {
-		
 		var delimiter = ";";
 		for( i in 0...s.length ) {
 

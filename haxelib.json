@@ -6,7 +6,7 @@
 	"tags": ["cross", "parser", "xa3"],
 	"description": "Another CSV format library for Haxe. Access content by Map<String,String>",
 	"version": "0.2.0",
-	"releasenote": "Better Method to remove quotes",
+	"releasenote": "Implement real parser",
 	"contributors": ["0xA3"],
 	"dependencies": {
 		"csv": ""

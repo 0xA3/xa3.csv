@@ -1,7 +1,7 @@
 ## A CSV format library
 
-Converts csv data to an easy to use format.  
-Uses very simple parser for csv files. Autodetects delimiter: Space, Semikolon or Tab.  
+Converts csv data to an easy to use format.
+Uses very simple parser for csv files. Autodetects delimiter: Space, Semikolon or Tab.
 For more complex csv files optionally uses https://github.com/jonasmalacofilho/csv library for parsing.
 
 ## Simple Example
