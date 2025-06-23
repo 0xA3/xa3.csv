@@ -5,8 +5,8 @@
 	"url": "https://github.com/0xA3/xa3.csv",
 	"tags": ["cross", "parser", "xa3"],
 	"description": "Another CSV format library for Haxe. Access content by Map<String,String>",
-	"version": "0.2.0",
-	"releasenote": "Implement real parser",
+	"version": "0.3.0",
+	"releasenote": "Add check column names",
 	"contributors": ["0xA3"],
 	"dependencies": {
 		"csv": ""
