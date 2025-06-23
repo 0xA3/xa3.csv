@@ -15,12 +15,12 @@ class TestDetectDelimiter extends buddy.BuddySuite {
 				Csv.detectDelimiter( cSemi ).should.be( ";" );
 			});
 
-			it( "should correctly detect the ; delimiter", {
+			it( "should correctly detect the , delimiter", {
 				final cComma = "column1,column2,column3\nline1 value1,line1 value2,line1 value3/n";
 				Csv.detectDelimiter( cComma ).should.be( "," );
 			});
 
-			it( "should correctly detect the ; delimiter", {
+			it( "should correctly detect the [tab] delimiter", {
 				final cTab = "column1	column2	column3\nline1 value1	line1 value2	line1 value3/n";
 				Csv.detectDelimiter( cTab ).should.be( "	" );
 			});

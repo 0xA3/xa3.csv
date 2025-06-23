@@ -63,7 +63,6 @@ class Csv {
 
 		final nonEmptyLines = filterEmptyLines( lines );
 		return new xa3.Csv( name, columnNames, columnMap, nonEmptyLines );
-
 	}
 
 	public static function fromFiles( files:Map<String, String> ):Array<Csv> {
@@ -152,7 +151,6 @@ class Csv {
 		return code ?? 0;
 	}
 
-
 	public static function encode( a:Array<Array<String>>, delimiter = ";" ):String {
 		return a.fold(( line:Array<String>, sum:String ) -> sum + line.join( ";" ) + "\n", "" );
 	}
@@ -173,6 +171,12 @@ class Csv {
 		}
 
 		return delimiter;
+	}
+
+	public function checkColumnNames( requiredColumns:Array<String> ) {
+		for( column in requiredColumns ) if( !columnMap.exists( column )) throw 'Error in csv $name: Column $column not found';
+		
+		return true;
 	}
 
 	public function toString():String {
